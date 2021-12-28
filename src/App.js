@@ -62,22 +62,22 @@ const App = () => {
       const user = await loginService.loginBooks({
         ...userToLogin,
       });
-      window.localStorage.setItem('loggedBooksappUser', JSON.stringify(user));
       booksService.setToken(user.token);
-      setUserLoged(user);
       setUserToLogin({
         username: '',
         password: '',
       });
-      notifyWith(`${user.name} logged`, 'succes');
+      setUserLoged(user);
+      notifyWith(`${user.name} welcome back!`, 'succes');
+      storage.saveUser(user);
     } catch (exception) {
       notifyWith('Wrong credentials', 'error');
     }
   };
 
   const userLogout = () => {
-    window.localStorage.removeItem('loggedBooksappUser');
     setUserLoged(null);
+    storage.logoutUser();
     notifyWith(`${userLoged.name} logout`, 'succes');
   };
 
