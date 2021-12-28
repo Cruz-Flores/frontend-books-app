@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { registryService } from './services/registry.js';
 import { loginService } from './services/login.js';
 import { booksService } from './services/books.js';
+import { storage } from './utils/storage.js';
 import { RegistryForm } from './components/RegistryForm.js';
 import { LoginForm } from './components/LoginForm.js';
 import { Book } from './components/Book.js';
@@ -122,12 +123,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBooksappUser');
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUserLoged(user);
-      booksService.setToken(user.token);
-    }
+    const user = storage.loadUser();
+    setUserLoged(user);
   }, []);
 
   return (
